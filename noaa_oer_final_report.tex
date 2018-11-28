@@ -126,7 +126,7 @@ For each video the initial step was to identify and isolate short, self-containe
 
 This strategy was selected to allow documentable, repeatable delineation and extraction of subsets from a given video.  Using this tool, a small number of test subsets were identified.   Initial work quickly narrowed to just two dives: EX1605L3\_DIVE4 and EX1605L3\_DIVE22.  For each dive, an additional meta-data records was generated in JSON format.  The ``synopsis'' format:
 
-\begin{Verbatim}[fonstize=\small]
+\begin{Verbatim}[fontsize=\small]
 {
   "Source": "$NOAA_DIR/EX1605L3/EX1605L3_DIVE22_20160708/Full/EX1605L3_DIVE22_20160708.json",
   "Chunks": {
@@ -205,35 +205,94 @@ Within dive EX1605L3\_DIVE4, three periods of interest, labelled as ``hillside''
 
 At the conclusion of ``hillside'', the main science camera zooms in partially and the ROV begins an upslope excursion, which is designated ``upslope''.  At the conclusion of this transit it then zooms back out and the ROV continues to maneuver further upslope over multiple ridges.  At the conclusion of this section, the ROV moves into open water and the seafloor is no longer visible (figure \ref{fig:ex1605l3_dive4_top_of_slope_end}).
 
-A total of 82 images were extracted from ``hillside.'' and were successfully reconstructed in Photoscan (figures \ref{fig:ex1605l3_dive4_photoscan} and \ref{fig:ex1605l3_dive4_photoscan_trajectory}).  Figure \ref{fig:ex1605l3_dive4_photoscan_trajectory} shows the estimated trajectory of the camera (ROV) as estimated from the imagery.  This estimated trajectory is qualitatively correct, showing the ROV approaching the hillside (as bottom of image), then transiting (swaying) rightward across a valley to another ridge.   
+A total of 82 images were extracted from ``hillside.'' and were successfully reconstructed in Photoscan (figures \ref{fig:hillside_photoscan} and \ref{fig:hillside_photoscan_trajectory}).  Figure \ref{fig:hillside_photoscan_trajectory} shows the estimated trajectory of the camera (ROV) as estimated from the imagery.  This estimated trajectory is qualitatively correct, showing the ROV approaching the hillside (as bottom of image), then transiting (swaying) rightward across a valley to another ridge.   
 
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.9\textwidth}
         \includegraphics[width=\textwidth]{images/hillside_reconstruction.png}
         \caption{Dense point cloud from reconstruction of ``hillside'' video segment.}
-        \label{fig:ex1605l3_dive4_photoscan}
+        \label{fig:hillside_photoscan}
     \end{subfigure}
     \begin{subfigure}[b]{0.9\textwidth}
         \includegraphics[width=\textwidth]{images/hillside_reconstruction_trajectory.png}
-        \caption{Reconstruction with camera trajectory (shown as purple squares) overlaid.  Top edge of model has been pitched towards observer relative to figure \ref{fig:ex1605l3_dive4_photoscan}. }
-        \label{fig:ex1605l3_dive4_photoscan_trajectory}
+        \caption{Reconstruction with camera trajectory (shown as purple squares) overlaid.  Top edge of model has been pitched towards observer relative to figure \ref{fig:hillside_photoscan}. }
+        \label{fig:hillside_photoscan_trajectory}
     \end{subfigure}
-    \caption{Source images for ``top\_of\_slope'' reconstruction within dive EX1605L3\_DIVE4.}
+    \caption{Reconstructions for ``hillside'' segment within dive EX1605L3\_DIVE4.}
 \end{figure}
 
-While qualitatively successful, this reconstruction illustrates many of the issues observed while reconstructing the ROV video.    Water quality taken at depth (approx. 6000m in this case) is very good, with little turbidity, however, the strong absorption of light creates an unmodelled --- and unique --- distortion in imagery.   In standard terrestrial imagery, the scene is generally evenly lit, often by natural light.   In this case, there is generally no dependency between the ``quality'' of the imagery of a given object and its distance from the camera, and instead the performance of reconstruction is a function solely of camera resolution.   In the ROV video, where the only light is mounted near the camera, distant objects undergo a fading in color and contrast well before they become too small to resolve.   For example, in ``hillside,'' the hillside is initially far from the ROV and is primarily blue-black in color (as in figure \ref{fig:ex1605l3_dive4_hillside_begin}).  As the ROV approaches, the optical path through the water decreases and the apparent color of the slope becomes the ``true'' brown-grey.   Despite this shifting appearance, Photoscan is able to complete reconstruction (in part because image matching algorithms work in greyscale), however, the impact of this color shifting can be seen in the mottled appearance of Figure \ref{fig:ex1605l3_dive4_photoscan}. 
-Portions of the scene which are only seen from a distance (e.g., the upper and lower left)
+While qualitatively successful, this reconstruction illustrates many of the issues observed while reconstructing the ROV video.    Water quality taken at depth (approx. 6000m in this case) is very good, with little turbidity, however, the strong absorption of light creates an unmodelled --- and unique --- distortion in imagery.   In standard terrestrial imagery, the scene is generally evenly lit, often by natural light.   In this case, there is generally no dependency between the ``quality'' of the imagery of a given object and its distance from the camera, and instead the performance of reconstruction is a function solely of camera resolution.   In the ROV video, where the only light is mounted near the camera, distant objects undergo a fading in color and contrast well before they become too small to resolve.   For example, in ``hillside,'' the hillside is initially far from the ROV and is primarily blue-black in color (as in figure \ref{fig:ex1605l3_dive4_hillside_begin}).  As the ROV approaches, the optical path through the water decreases and the apparent color of the slope becomes the ``true'' brown-grey.   Despite this shifting appearance, Photoscan is able to complete reconstruction (in part because image matching algorithms work in greyscale), however, the impact of this color shifting can be seen in the mottled appearance of Figure \ref{fig:hillside_photoscan}. 
+Portions of the scene which are only seen from a distance (e.g., the upper and lower left) are rendered in blue, while portions seen at close-range during the transit appear closer to their true color.   Portions of the slope only viewed at the edges of the light, for example, the far right, become increasingly indistinct.  Similarly, the right slopes of the two ridges are undefined because the ROV does not view those portions of the slope.   This can be seen as a case fo real-time reconstruction, where such a data gap would be immediately noticed.
+
+A similar reconstruction for ``top\_of\_slope'' is given in figure \ref{img:top_of_slope_photoscan}.  As with ``hillside,'' the reconstruction is very successful, capturing details of the topography as the ROV cross between ridges.   As illustrated in figure \ref{img:top_of_slope_photoscan_trajectory}, the ROV starts at the lower right of the model, then ascends upwards and to the left, before moving away from the hillside over the ridge at model center.  As with the ``hillside'' reconstructions, this model is subject to the same color banding.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/top_of_slope_reconstruction.png}
+    \caption{Reconstruction of ``top\_of\_slope'' segment within EX1605L3\_DIVE4.}
+    \label{fig:top_of_slope_reconstruction}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/top_of_slope_reconstruction_trajectory.png}
+    \caption{Reconstruction of ``top\_of\_slope'' segment with overlaid camera trajectory.  Relative to \label{fig:top_of_slope_reconstruction}, right side of model has been pulled towards observer.}
+    \label{fig:top_of_slope_reconstruction_trajectory}
+\end{figure}
+
+While these two reconstructions are successful, several cautionary notes should be drawn from these models.   Most significantly, we have no way to verify the accuracy of the resulting topography.   Further, each of these models is built on a relatively limited set of perspectives.   ...
 
 
 
+Three consecutive segments were extracted from Dive EX1605L3\_DIVE22, ``approaching wing'' covers a period when the ROV is approaching an inverted B-29 wreck from off the starboard wingtip.  It then proceeds along the leading edge of the wing to the number one engine, leading to the segment ``engine\_one.''  This segment ends when the camera zooms into the engine to capture further detail in segment ``engine\_detail.''
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/image_060000.png}
+        \caption{First frame in reconstructed segment, frame 60000 within dive.}
+        \label{fig:ex1605l3_dive22_approaching_wing_begin}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/image_063400.png}
+        \caption{Final frame in reconstructed segment, frame 63400 within dive.}
+        \label{fig:ex1605l3_dive22_approaching_wing_end}
+    \end{subfigure}
+    \caption{Source images for ``approaching wing'' segment within dive EX1605L3\_DIVE22.}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/image_063500.png}
+        \caption{First frame in reconstructed segment, frame 63500 within dive.}
+        \label{fig:ex1605l3_dive22_engine_one_begin}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/image_065900.png}
+        \caption{Final frame in reconstructed segment, frame 65900 within dive.}
+        \label{fig:ex1605l3_dive22_engine_one_end}
+    \end{subfigure}
+    \caption{Source images for ``engine one'' segment within dive EX1605L3\_DIVE22.}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/image_066400.png}
+        \caption{First frame in reconstructed segment, frame 66400 within dive.}
+        \label{fig:ex1605l3_dive22_engine_one_begin}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/image_068900.png}
+        \caption{Final frame in reconstructed segment, frame 68900 within dive.}
+        \label{fig:ex1605l3_dive22_engine_one_end}
+    \end{subfigure}
+    \caption{Source images for ``engine detail'' segment within dive EX1605L3\_DIVE22.}
+\end{figure}
 
 
-
-
-
-
-Within dive 
 
 
 
