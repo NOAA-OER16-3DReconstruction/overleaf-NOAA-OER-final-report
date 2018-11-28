@@ -11,6 +11,8 @@
 %\setmainfont[Mapping=tex-text]{Times New Roman} % or another similar font
 %\setdefaultlanguage{english}
 
+\usepackage{subcaption}
+\usepackage{fancyvrb}
 \usepackage{natbib}
 \usepackage{tabularx}
 \bibliographystyle{chicago}
@@ -69,7 +71,7 @@ As high-quality imaging data is relatively simple to acquire, photogrammetric re
 The broad question addressed within this project is the applicability and usefulness of 3D reconstruction to ROV-based exploration, and particularly as an value-added product which does not drive specific mission behaviors for its acquisition, but which is generated organically as part of standard ROV operating procedures.  This project, then, addressed three main questions:
 
 \begin{itemize}
-    \item First, are segments of the archival D2 video suitable for post-processed reconstruction?   Are there structural or operational impediments to performing 3D reconstruction with the D2 video?   Post-processed reconstruction may be a valuable added product from particular ROV dives, particularly when exploring sites where the geometry of the site at a $\sym1-10$ m scale is of particular interest.  As reflected in the D2 video analyzed within this project, this includes many archaeological explorations,  hydrothermal vent structures, and larger coral reef communities.   As shown in one of the dives (EX1605L3\_DIVE04\_20160621), reconstruction can also be useful for visualizing topography over short transects although the lack of ground truth information makes reconstruction \textit{without} explicit provision in the mission planning less useful.
+    \item First, are segments of the archival D2 video suitable for post-processed reconstruction?   Are there structural or operational impediments to performing 3D reconstruction with the D2 video?   Post-processed reconstruction may be a valuable added product from particular ROV dives, particularly when exploring sites where the geometry of the site at a $\sim 1-10$ m scale is of particular interest.  As reflected in the D2 video analyzed within this project, this includes many archaeological explorations,  hydrothermal vent structures, and larger coral reef communities.   As shown in one of the dives (EX1605L3\_DIVE04\_20160621), reconstruction can also be useful for visualizing topography over short transects although the lack of ground truth information makes reconstruction \textit{without} explicit provision in the mission planning less useful.
     
     \item Second, having shown that a segment of video can be reconstructed under controlled post-processed conditions, can those same segments be reconstructed using a real-time algorithm?   This question occupies the bulk of this project for two reasons:  first, as discussed previously, real-time reconstruction is inherently a technically more challenging endeavour than post-processed reconstruction.  Second, whereas the post-processed reconstruction uses a commericial off-the-shelf application, there are no commercial generalizeable real-time reconstruction software packages.  Instead, most real-time software remains in the academic realm, and requires significant effort to understand, use, and modify for the specific application.  
 
@@ -89,28 +91,151 @@ Project work fell into three major tasks.  First was acquisition of the archival
 Input video was provided by the NOAA data archive.  In collaboration with archivists, four D2 dives from the NOAA expedition \textit{EX1605: Deepwater Exploration of the Marianas} were identified as having regions which might be suitable for reconstruction:
 
 \begin{itemize}
-    \item \textbf{Leg 1, Dive 11: New Vent Field.}   An approx 6h30m dive exploring an area previously mapped by the Sentry AUV and believed to contain multiple previously unexplored hydrothermal vents. This dive was selected as hydrothermal vent structures provide a dramatic 3D shape which might be explored in more detail through reconstruction.    This video would be challenging due to the high level of motion around a vent due to schlieren, macrofauna, and particulates/precipitates/smoke.
+    \item \textbf{Leg 1, Dive 11: New Vent Field} (\textit{EX1605L1\_DIVE11}).   An approx 6h30m dive exploring an area previously mapped by the Sentry AUV and believed to contain multiple previously unexplored hydrothermal vents. This dive was selected as hydrothermal vent structures provide a dramatic 3D shape which might be explored in more detail through reconstruction.    This video would be challenging due to the high level of motion around a vent due to schlieren, macrofauna, and particulates/precipitates/smoke.
     
     \includegraphics[width=0.5\textwidth]{images/EX1605L1_DIVE11_highlight.jpg}
     
-    \item \textbf{Leg 3, Dive 4: Hadal Ridge.}  Approximately 2h51m of this 10h dive was spent on the bottom, transecting up-slope through a region of fine sediment with some rocky outcroppings.  This video was selected to evaluate the potential of using photogrammetry to estimate vehicle trajectory during long transects.
+    \item \textbf{Leg 3, Dive 4: Hadal Ridge} (\textit{EX1605L3\_DIVE4}).  Approximately 2h51m of this 10h dive was spent on the bottom, transecting up-slope through a region of fine sediment with some rocky outcroppings.  This video was selected to evaluate the potential of using photogrammetry to estimate vehicle trajectory during long transects.
     
     \includegraphics[width=0.5\textwidth]{images/EX1605L3_DIVE4_highlight.jpg}
     
-    \item \textbf{Leg 3, Dive 7: Chamorro Seamount.}  Approximately 7h on the bottom in a rocky region including several smaller hydrothermal vents.    This video was selected to evaluate reconstruction of smaller rocker outcropping and vents, and also for mapping of transects over rocky terrain.
+    \item \textbf{Leg 3, Dive 7: Chamorro Seamount} (\textit{EX1605L3\_DIVE7}).  Approximately 7h on the bottom in a rocky region including several smaller hydrothermal vents.    This video was selected to evaluate reconstruction of smaller rocker outcropping and vents, and also for mapping of transects over rocky terrain.
     
     \includegraphics[width=0.5\textwidth]{images/EX1605L3_DIVE7_highlight.jpg}
     
-    \item \textbf{Leg 3, Dive 22: Romeo and Juliet.}  This dive explores two sonar anomalies in the Saipan channel believed to be crashed B-29 aircraft from World War Two.  This video was selected to demonstrate reconstruction of archaeological artifacts.
+    \item \textbf{Leg 3, Dive 22: Romeo and Juliet} (\textit{EX1605L3\_DIVE22}).  This dive explores two sonar anomalies in the Saipan channel believed to be crashed B-29 aircraft from World War Two.  This video was selected to demonstrate reconstruction of archaeological artifacts.
     
     \includegraphics[width=0.5\textwidth]{images/EX1605L3_DIVE22_highlight.jpg}
     
 \end{itemize}
 
+Approx 4.2TB of video was delivered by external hard drive from the NOAA data archive.  All video products for all four dives were provided, including the full QuickTime/ProRes-encoded stream from the main science camera, as well as selected video subsets from both the main science camera and supplemental cameras, including the brow cameras on D2, and the \textit{Seirios} camera.   The latter supplemental data sets were not continuous through the dive and were provided at each camera's resolution, typically standard definition (SD).  
 
-Project work was almost exclusively software development, with a portion of data archiving and analysis.   This software development fell into three major tasks:   first, development of tools for indexing, describing and subsetting the unwieldy full-mission-length sets of Quicktime videos.   The overall goal is to develop procedures which allow for repeatable, documentable extraction of either sets of images or video snippets from a given dive.  Second is image processing which leads to the post-processed 3D reconstruction of scenes from each dive.   The reconstruction itself is performed using commercial software (Agisoft Photoscan), however it takes image sets as its input, requiring extraction of appropriate image sets.
+Initial work focused on the full-resolution, full-mission-length HD main science camera video.  This video was delivered as a sequence of 5-minute-long Quicktime movies encoded with the ProRes video codec, covering the entire dive from surface to surface.    As an example, Leg 3 Dive 7 is recorded as spanning 8h17m from 20:19:04 UTC to 05:19:18 UTC the subsequent day.  It is provided as 105 videos timestamped from 20:15:00 UTC to 04:55:00 UTC, totalling 521GB of video. 
 
-The majority of the development focused on the third major task, the adaptation of a real-time 3D reconstruction / Simultaneous Localization and Mapping software package to accept the D2 video.
+\subsubsection{Video Indexing and Annotation}
+
+For each video the initial step was to identify and isolate short, self-contained segments of each mission which might be suitable for reconstruction.   This effort leveraged previously-developed software tools for indexing and extracting individual frames from Quicktime/Prores files.  These tools were expanded to allow the aggregation of multiple sequential video files as a single entity, allowing time- and frame-based indexing from the start of the dive, rather than maintining bookkeeping across multiple discrete video files.  This technique was used extensively throughout the project.  As an example, a small utility was created which produces a thumbnail image approximately every minute through the length of a dive (figure \ref{img:thumbnails}), allowing quick scanning of an entire video file.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/thumbnailer_screenshot.png}
+    \caption{Screenshot from video synopsis tools.   Constituent video files are shown in leftmost column.   One thumbnail image is drawn every minute of video.  Numbers under video give that frame's position within the dive, indexed from the beginning of the first video in the dive.}
+    \label{img:thumbnails}
+\end{figure}
+
+This strategy was selected to allow documentable, repeatable delineation and extraction of subsets from a given video.  Using this tool, a small number of test subsets were identified.   Initial work quickly narrowed to just two dives: EX1605L3\_DIVE4 and EX1605L3\_DIVE22.  For each dive, an additional meta-data records was generated in JSON format.  The ``synopsis'' format:
+
+\begin{Verbatim}[fonstize=\small]
+{
+  "Source": "$NOAA_DIR/EX1605L3/EX1605L3_DIVE22_20160708/Full/EX1605L3_DIVE22_20160708.json",
+  "Chunks": {
+    "descending": {
+      "range": {  "start": 1  }
+    },
+    "approaching bottom": {
+      "range": { "start": 38800 }
+    },
+    "approaching wing": {
+      "range": { "start": 58800 }
+    },
+    "engine one": {
+      "range": { "start": 63500 }
+    },
+    "landing gear": {
+      "range": { "start": 71500 }
+    },
+    ...
+\end{Verbatim}
+
+allow definition of predefined ``regions'' or ``bookmarks'' within a video, for later access.  Both EX1605L3\_DIVE4 and EX1605L3\_DIVE22 were annotated in this manner.
+
+
+
+\subsubsection{Post-Processed Reconstruction}
+
+A segment from each video was selected for reconstruction using Agisoft Photoscan.   Based on the standard operating procedure of the ROV, these segments corresponded with periods of area exploration with the science camera in a zoomed-out state, and were bounded in both cases by the science camera moving to a full-zoom-in condition, examining an object at the behest of the science team.    
+
+Within dive EX1605L3\_DIVE4, three periods of interest, labelled as ``hillside'', ``upslope'' and ``top\_of\_slope'' were examined.   ``Hillside'' starts with the ROV advancing towards a rocky slope (figure \ref{img:ex1605l3_dive4_hillside_start}).
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/image_643000.png}
+        \caption{First frame in reconstructed segment, frame 643000 within dive.}
+        \label{fig:ex1605l3_dive4_hillside_begin}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/image_651100.png}
+        \caption{Final frame in reconstructed segment, frame 651100 within dive.}
+        \label{fig:ex1605l3_dive4_hillside_end}
+    \end{subfigure}
+    \caption{Source images for ``hillside'' reconstruction within dive EX1605L3\_DIVE4.}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/image_653000.png}
+        \caption{First frame in reconstructed segment, frame 653000 within dive.}
+        \label{fig:ex1605l3_dive4_upslope_begin}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/image_656500.png}
+        \caption{Final frame in reconstructed segment, frame 656500 within dive.}
+        \label{fig:ex1605l3_dive4_upslope_end}
+    \end{subfigure}
+    \caption{Source images for ``upslope'' reconstruction within dive EX1605L3\_DIVE4.}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/image_656700.png}
+        \caption{First frame in reconstructed segment, frame 656700 within dive.}
+        \label{fig:ex1605l3_dive4_top_of_slope_begin}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.48\textwidth}
+        \includegraphics[width=\textwidth]{images/image_679900.png}
+        \caption{Final frame in reconstructed segment, frame 679900 within dive.}
+        \label{fig:ex1605l3_dive4_top_of_slope_end}
+    \end{subfigure}
+    \caption{Source images for ``top\_of\_slope'' reconstruction within dive EX1605L3\_DIVE4.}
+\end{figure}
+
+At the conclusion of ``hillside'', the main science camera zooms in partially and the ROV begins an upslope excursion, which is designated ``upslope''.  At the conclusion of this transit it then zooms back out and the ROV continues to maneuver further upslope over multiple ridges.  At the conclusion of this section, the ROV moves into open water and the seafloor is no longer visible (figure \ref{fig:ex1605l3_dive4_top_of_slope_end}).
+
+A total of 82 images were extracted from ``hillside.'' and were successfully reconstructed in Photoscan (figures \ref{fig:ex1605l3_dive4_photoscan} and \ref{fig:ex1605l3_dive4_photoscan_trajectory}).  Figure \ref{fig:ex1605l3_dive4_photoscan_trajectory} shows the estimated trajectory of the camera (ROV) as estimated from the imagery.  This estimated trajectory is qualitatively correct, showing the ROV approaching the hillside (as bottom of image), then transiting (swaying) rightward across a valley to another ridge.   
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.9\textwidth}
+        \includegraphics[width=\textwidth]{images/hillside_reconstruction.png}
+        \caption{Dense point cloud from reconstruction of ``hillside'' video segment.}
+        \label{fig:ex1605l3_dive4_photoscan}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.9\textwidth}
+        \includegraphics[width=\textwidth]{images/hillside_reconstruction_trajectory.png}
+        \caption{Reconstruction with camera trajectory (shown as purple squares) overlaid.  Top edge of model has been pitched towards observer relative to figure \ref{fig:ex1605l3_dive4_photoscan}. }
+        \label{fig:ex1605l3_dive4_photoscan_trajectory}
+    \end{subfigure}
+    \caption{Source images for ``top\_of\_slope'' reconstruction within dive EX1605L3\_DIVE4.}
+\end{figure}
+
+While qualitatively successful, this reconstruction illustrates many of the issues observed while reconstructing the ROV video.    Water quality taken at depth (approx. 6000m in this case) is very good, with little turbidity, however, the strong absorption of light creates an unmodelled --- and unique --- distortion in imagery.   In standard terrestrial imagery, the scene is generally evenly lit, often by natural light.   In this case, there is generally no dependency between the ``quality'' of the imagery of a given object and its distance from the camera, and instead the performance of reconstruction is a function solely of camera resolution.   In the ROV video, where the only light is mounted near the camera, distant objects undergo a fading in color and contrast well before they become too small to resolve.   For example, in ``hillside,'' the hillside is initially far from the ROV and is primarily blue-black in color (as in figure \ref{fig:ex1605l3_dive4_hillside_begin}).  As the ROV approaches, the optical path through the water decreases and the apparent color of the slope becomes the ``true'' brown-grey.   Despite this shifting appearance, Photoscan is able to complete reconstruction (in part because image matching algorithms work in greyscale), however, the impact of this color shifting can be seen in the mottled appearance of Figure \ref{fig:ex1605l3_dive4_photoscan}. 
+Portions of the scene which are only seen from a distance (e.g., the upper and lower left)
+
+
+
+
+
+
+
+
+
+Within dive 
+
+
 
 \subsubsection*{Describe how the project was organized and managed}
 
