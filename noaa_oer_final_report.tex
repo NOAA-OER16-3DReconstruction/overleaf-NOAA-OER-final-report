@@ -209,12 +209,12 @@ A total of 82 images were extracted from ``hillside.'' and were successfully rec
 
 \begin{figure}
     \centering
-    \begin{subfigure}[b]{0.9\textwidth}
+    \begin{subfigure}[b]{0.95\textwidth}
         \includegraphics[width=\textwidth]{images/hillside_reconstruction.png}
         \caption{Dense point cloud from reconstruction of ``hillside'' video segment.}
         \label{fig:hillside_photoscan}
     \end{subfigure}
-    \begin{subfigure}[b]{0.9\textwidth}
+    \begin{subfigure}[b]{0.95\textwidth}
         \includegraphics[width=\textwidth]{images/hillside_reconstruction_trajectory.png}
         \caption{Reconstruction with camera trajectory (shown as purple squares) overlaid.  Top edge of model has been pitched towards observer relative to figure \ref{fig:hillside_photoscan}. }
         \label{fig:hillside_photoscan_trajectory}
@@ -229,14 +229,14 @@ A similar reconstruction for ``top\_of\_slope'' is given in figure \ref{img:top_
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{images/top_of_slope_reconstruction.png}
+    \includegraphics[width=0.95\textwidth]{images/top_of_slope_reconstruction.png}
     \caption{Reconstruction of ``top\_of\_slope'' segment within EX1605L3\_DIVE4.}
     \label{fig:top_of_slope_reconstruction}
 \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\textwidth]{images/top_of_slope_reconstruction_trajectory.png}
+    \includegraphics[width=0.95\textwidth]{images/top_of_slope_reconstruction_trajectory.png}
     \caption{Reconstruction of ``top\_of\_slope'' segment with overlaid camera trajectory.  Relative to \label{fig:top_of_slope_reconstruction}, right side of model has been pulled towards observer.}
     \label{fig:top_of_slope_reconstruction_trajectory}
 \end{figure}
@@ -292,7 +292,37 @@ Three consecutive segments were extracted from Dive EX1605L3\_DIVE22, ``approach
     \caption{Source images for ``engine detail'' segment within dive EX1605L3\_DIVE22.}
 \end{figure}
 
+The ``approaching wing'' and ``engine one'' segments were processed independently in Photoscan then merged into a single model, as shown in Figures \ref{fig:ex1605l3_dive22_wing_photoscan} and \ref{fig:ex1605l3_dive22_wing_photoscan_trajectory}. 
 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/approaching_wing_photoscan.png}
+    \caption{Reconstruction of ``approaching wing'' and ``engine one'' segments of EX1605L3\_DIVE22.}
+    \label{fig:ex1605l3_dive22_wing_photoscan}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/approaching_wing_photoscan_trajectory.png}
+    \caption{Reconstruction of ``approaching wing'' and ``engine one'' segments with overlaid trajectory.  ROV travels from right to left along leading edge of wing.}
+    \label{fig:ex1605l3_dive22_wing_photoscan_trajectory}
+\end{figure}
+
+The short ``engine detail'' section, during which the ROV was zoomed in on the nacelle of the number one engine could also be reconstructured independently as shown in Figure \ref{fig:ex1605l3_dive22_engine_detail_photoscan}.    This shows the fine detail possible from HD reconstruction, as well as the large data gaps which arise when viewing the subject from a single perspective.   This segment is particularly interesting in that it contains data from multiple camera zoom values, as shown in Figure \ref{fig:ex1605l3_dive22_engine_detail_photoscan_trajectory}.   First, all images used in this reconstruction are from a fairly constrained vantage point, hence the large data ``shadows'' for locations on the engine nacelle which would not be visible from the front.   Second, the two clusters of camera locations do not correspond to motion of the ROV, but instead represent changes in camera focal length (zooming), which are interpreted as toward-target motion by Photoscan.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/engine_detail_photoscan.png}
+    \caption{Reconstruction of ``engine detail'' segment from EX1605L3\_DIVE22.}
+    \label{fig:ex1605l3_dive22_engine_detail_photoscan}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[height=0.9\textheight]{images/engine_detail_photoscan_trajectory.png}
+    \caption{Estimated camera positions from of ``engine detail'' segment.  Model is shown at top.  Two cluster represent two states of camera zoom.}
+    \label{fig:ex1605l3_dive22_engine_detail_photoscan_trajectory}
+\end{figure}
 
 
 
