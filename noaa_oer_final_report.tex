@@ -52,6 +52,8 @@ Progress Report for Period:   9/1/2016 -- 8/30/2018 \\
 
 \vfill 
 
+PI Signature:   \hspace{3in}   Date:  \textbf{30 November 2018}
+
 %
 \end{center} \clearpage
 \pagenumbering{arabic}
@@ -255,8 +257,6 @@ A similar reconstruction from the 130 images extracted from ``top of slope'' is 
 
 While these two reconstructions are successful, several cautionary notes should be drawn from these models.   Most significantly, we have no way to verify the accuracy of the resulting topography and trajectories.    The larger message is the negative impact of the relatively short period of zoom-in ``upslope'' which effectively separates the ``hillside'' and ``top of slope'' segments.  While this short period is only approx. 3 minutes in length, the ROV moves sufficiently while zoomed-in such that there is no image overlap between ``hillside'' and ``top of slope'' which can be used to join the two models.  While is might be possible to join the two models via the estimated ROV motion within ``upslope'' it would be unlikely to be accurate and would represent a weak geometric constraint between the two larger models.   Again, this emphasizes the importance of multiple, overlapping images of a scene of interest.  This is particularly critical in linear transect missions such as this where a particular scene is unlikely to be viewed again to fill in the data gap.    In post-processing, the gap between ``hillside'' and ``top of slope'' could have been joined had the two mission segments intersected at any point, even if the time-ordered image sequence was not necessarily continuous.
 
-\clearpage
-
 Three consecutive segments were extracted from Dive EX1605L3\_DIVE22. ``approaching wing'' covers a period where the ROV is approaching an inverted B-29 site from off the starboard wingtip.  It then proceeds along the leading edge of the wing to the number one engine, leading to the segment ``engine one.''  This segment ends when the camera zooms into the engine to more closely examine the wreckage in segment ``engine detail.''
 
 \begin{figure}[p]
@@ -338,6 +338,7 @@ The short ``engine detail'' section, during which the ROV was examining the nace
 \end{figure}
 
 
+\clearpage
 \subsubsection{Realtime Reconstruction}
 
 Whereas commercial products exist for post-processed reconstruction, realtime reconstruction remains an area of intensive academic research.   While many realtime reconstruction, or simultaneous localization and mapping (SLAM), systems have been detailed in the literature, there has been little convergence towards a set of commonly used tools.   This project started with the codebase for Large Scale Direct Simultaneous Localization and Mapping (LSD-SLAM), the product of Dr. Jakob Engel's PhD research at the Technical University of Munich \cite{engel2014lsd}.   Dr. Engels has released the LSD-SLAM code, along with several sample datasets, under an open source license allowing continued development after his completion of his degree.   As of the start of the project, LSD-SLAM was seen as one of the more accessible, better structured open source SLAM tools, with the understanding that any academically-based reconstruction tools might require intensive modification to accommodate the domain-specific challenges of this ROV imagery.
